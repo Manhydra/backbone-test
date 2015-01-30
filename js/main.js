@@ -21,17 +21,13 @@ var RPGNS = (function () {
 
     // Collection of characters
     var _Party = Backbone.Collection.extend({
-      model: _Character
+      model: _Character,
+      url: 'characters.json'
     });
 
     return {
       // Public visibility of our character collection, populated with default characters
-      Party: new _Party([
-        { name: 'Marc', charClass: 'Figher'},
-        { name: 'Omar', charClass: 'Wizard'},
-        { name: 'Stagmel', race: 'Dwarf', charClass: 'Figher'},
-        { name: 'Llanowar', race: 'Elf', charClass: 'Thief'}
-      ])
+      Party: new _Party
     };
   })();
 
@@ -72,6 +68,8 @@ var RPGNS = (function () {
       initialize: function () {
         // Our input box to enter the details of a new character
         this.input = this.$('#newCharacter');
+
+        this.model.fetch();
 
         this.listenTo(this.model, 'add', this.addCharacter);
         this.listenTo(this.model, 'all', this.render);
